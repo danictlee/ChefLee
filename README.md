@@ -1,135 +1,62 @@
-# ChefLee 🍳
+# 🍜 Chef Lee's Digital Kitchen
 
-An intelligent recipe assistant powered by AI that uses semantic search to help you discover and cook amazing Asian recipes.
+**A RAG-based AI Recipe Assistant built with Python.**
 
-## 🎯 About
+## 🍽️ About The Project
+Chef Lee is a digital sous-chef that helps you decide what to cook. It uses **Retrieval-Augmented Generation (RAG)** to read a real cookbook (*Asian Takeout* by RecipeTin Eats) and answer questions based *only* on the recipes in that book.
 
-ChefLee is an application that combines PDF processing, vector embeddings, and semantic search to create an AI-driven recipe discovery experience. It processes recipe books in PDF format and allows you to find recipes using natural language.
+If you ask for a dish, it searches the PDF, finds the best matches, and uses Google Gemini to explain the recipe to you.
 
-## 🚀 Features
+## 🥘 Tech Stack (The Ingredients)
+* **Brain:** Google Gemini 2.0 Flash (via LangChain)
+* **Memory:** ChromaDB (Vector Database)
+* **API:** FastAPI
+* **Frontend:** Streamlit
+* **Language:** Python 3.12+
 
-- **PDF Processing**: Extract recipes from PDF documents
-- **Semantic Search**: Find recipes using natural language descriptions
-- **Vector Database**: Uses Chroma DB for efficient embedding storage
-- **User-Friendly Interface**: Intuitive frontend for exploring recipes
-- **AI-Powered Responses**: Google Gemini integration for intelligent recipe assistance
+## 🔪 Setup Instructions
 
-## 📁 Project Structure
+### 1. Clone & Install
 
-```
-ChefLee/
-├── main.py                                          # FastAPI application entry point
-├── frontend.py                                      # Streamlit user interface
-├── ingest.py                                        # Script to ingest and process PDFs
-├── requirements.txt                                 # Project dependencies
-├── .env                                             # Environment variables (DO NOT COMMIT)
-├── .gitignore                                       # Git configuration
-├── chroma_db/                                       # Vector database storage
-│   ├── chroma.sqlite3                              # Embeddings storage
-│   └── [uuid]/                                      # Data collections
-├── PDFs/                                            # Recipe PDF folder
-│   └── Asian-Takeout-eCookbook-RecipeTin-Eats.pdf
-└── __pycache__/                                     # Python cache
+```bash
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-## 📦 Installation
+### 2. Configure Environment
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/danictlee/ChefLee.git
-   cd ChefLee
-   ```
+Create a `.env` file in the root folder and add your Google API key:
 
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```env
+GOOGLE_API_KEY=your_api_key_here
+```
 
-3. **Set up environment variables**:
-   Create a `.env` file in the project root with:
-   ```env
-   GOOGLE_API_KEY=your_google_api_key
-   ```
+### 3. Prep the Kitchen (Ingestion)
 
-   > **Important**: The `.env` file is included in `.gitignore` and will NOT be uploaded to GitHub.
-
-## ⚙️ Configuration
-
-### Environment Variables
-
-The following environment variable is required:
-
-| Variable | Description |
-|----------|-------------|
-| `GOOGLE_API_KEY` | Your Google Gemini API key for AI-powered recipe assistance |
-
-Obtain your API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-
-## 🏃 Usage
-
-### 1. Ingest Recipes (Process PDFs)
-
-First, place your recipe PDF files in the `PDFs/` folder, then run:
+Before running the app, you need to "teach" the AI the cookbook:
 
 ```bash
 python ingest.py
 ```
 
-This will:
-- Extract text from PDF files
-- Create vector embeddings
-- Store recipes in Chroma DB for semantic search
+This will create a `chroma_db` folder with the vectorized recipes.
 
-### 2. Run the API Server
+## 👨‍🍳 How to Run
 
-Start the FastAPI backend:
+### 1. Start the API (The Kitchen)
 
 ```bash
-python main.py
+uvicorn main:app --reload
 ```
 
-The API will be available at `http://localhost:8000`
+### 2. Start the Frontend (The Menu)
 
-### 3. Launch the Frontend
-
-In another terminal, start the Streamlit interface:
+Open a new terminal and run:
 
 ```bash
 streamlit run frontend.py
 ```
 
-The application will open in your default browser at `http://localhost:8501`
+## 📸 Usage
 
-## 🗄️ Database
-
-ChefLee uses **Chroma DB** for storing and retrieving vector embeddings of recipes. Data is persisted in `chroma.sqlite3` within the `chroma_db/` directory.
-
-- **Embeddings Model**: Uses sentence transformers for semantic understanding
-- **Storage**: Lightweight SQLite-based persistence
-- **Collections**: Organized by recipe categories for efficient retrieval
-
-## 📚 Recipe Content
-
-Currently processing the **"Asian Takeout e-Cookbook"** with 99+ pages featuring:
-
-- **Stir Fries**: Beef and Broccoli, Kung Pao Chicken, etc.
-- **Main Courses**: Chinese BBQ Pork, Thai Curries, etc.
-- **Noodles and Rice**: Various Asian noodle dishes
-- **Soups and Salads**: Traditional Asian soups and fresh salads
-- **Appetizers**: Thai Fish Cakes, Spring Rolls, etc.
-
-## 🔧 Tech Stack
-
-| Component | Technology |
-|-----------|-----------|
-| **Backend** | FastAPI + LangChain |
-| **Frontend** | Streamlit |
-| **AI Models** | Google Gemini 2.0 Flash |
-| **Vector Database** | Chroma DB |
-| **Language** | Python 3.x |
-| **Environment** | Docker (Ubuntu 24.04.3 LTS) |
-
-## 👨‍💻 Author
-
-- **Daniel Lee** - [GitHub Profile](https://github.com/danictlee)
-- **Repository**: [ChefLee](https://github.com/danictlee/ChefLee)
+Type in what ingredients you have (e.g., "I have shrimp and rice") and Chef Lee will suggest a recipe from the knowledge base!
