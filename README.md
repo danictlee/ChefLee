@@ -31,16 +31,6 @@ Create a `.env` file in the root folder and add your Google API key:
 GOOGLE_API_KEY=your_api_key_here
 ```
 
-### 3. Prep the Kitchen (Ingestion)
-
-Before running the app, you need to "teach" the AI the cookbook:
-
-```bash
-python ingest.py
-```
-
-This will create a `chroma_db` folder with the vectorized recipes.
-
 ## 👨‍🍳 How to Run
 
 ### 1. Start the API (The Kitchen)
